@@ -198,7 +198,10 @@ class Netrunning {
                         if(pType.get(i).equals("Password")) {
 
                             if(n.backdoor(p.get(i), passKnown)) {
+
                                 floor.setText("Floor " + (displayFloor) + ": " + netArchitecture.get(currentFloor));
+                                bPass.setText("Password: Unknown");
+                                passKnown = false;
                             }
                             currentNet--;
                             actions.setText("Net Actions Remaining: " + currentNet);
@@ -316,14 +319,17 @@ class Netrunning {
                     ArrayList<String> pType = getType(netArchitecture.get(currentFloor).size(), netArchitecture.get(currentFloor));
                     ArrayList<program> p = netArchitecture.get(currentFloor);
                     JFrame target = new JFrame();
+                    target.setSize(500, 600);
+                    target.setLayout(new FlowLayout());
                     // Checks to see which programs are Black ICE and able to be targeted
                     for(int i = 0; i < p.size(); i++) {
 
                         if(pType.get(i).equals(allTypes[0]) || pType.get(i).equals(allTypes[1])) {
                             // Creates selection for Black ICE target
-                            target.setVisible(true);
                             JButton b = new JButton("" + p.get(i));
                             target.add(b);
+                            frame.setVisible(false);
+                            target.setVisible(true);
                             program ice = p.get(i);
                             b.addActionListener(new ActionListener() {
                             
@@ -334,6 +340,7 @@ class Netrunning {
                                     currentNet--;
                                     actions.setText("Net Actions Remaining: " + currentNet);
                                     target.setVisible(false);
+                                    frame.setVisible(true);
                                 }
                             });
                         }
