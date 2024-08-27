@@ -1,0 +1,47 @@
+NET Actions - 2-5 (Instead of Meat Action)
+Default Actions:
+    - Jack In/Out
+    - Interface Ability (Interface + 1d10 vs. DV)
+        - Scanner (Meat Action)
+        - Backdoor (Automatic success if password known)
+        - Cloak (Determines Pathfinder DV for others)
+        - Control (Each node once/turn + each item = 1 action / Keep control until Netrunner/Demon beats your Control check or Jack Out / Until loss of control can activate anywhere in NET)
+        - Eye-Dee (Determine file contents / may have DV)
+        - Pathfinder (Reveals floor equal to check or until DV > check)
+        - Slide (Escape Non-Demon Black ICE vs. DV Perception + 1d10 / Move to adjacent floor (not past obstruction) + Black ICE stops following / 1/turn)
+        - Virus (Check Below)
+        - Zap (vs. Defense + 1d10 or Interface + 1d10 / 1d6 to REZ or Netrunner)
+    - Activate/Deactivate Program
+    - Miscellaneous
+Moving + Copying Files is free
+Net Combat:
+Interface + (Program ATK or Black ICE ATK) + 1d10
+vs.
+(Interface or Program/Black ICE DEF) + 1d10
+Defeating a Program:
+    - Bring REZ to 0 (Can be used if Deactivated and then Activated with 2 total NET Actions)
+    - Destroyed (Is removed permanently)
+Programs:
+    - Each can only be activated once/round
+    Non-Black ICE (Use 1 slot)
+    - Booster
+        - 
+    - Defender
+        - 
+    - Attacker
+        - 
+    Black ICE (Use 2 slots)
+    - Anti-Personnel
+    - Anti-Program
+    - Demon
+    - Encountering Black ICE
+        - Interface + SPEED bonus + 1d10 vs. SPEED + 1d10
+        - On loss you or random active programs suffer effect
+        - Black ICE is placed at highest current initiative + 1
+        - Will attack with ATK + 1d10 vs. (Interface or DEF) + 1d10 each turn (chases until defeated/successful Slide)
+    - Activating Black ICE
+        - Lie in wait (not during combat)
+        - Select target in combat (Added to top of initiative)
+            - Cannot retarget unless Derezzed + Rezzed
+
+Virus - Once you have reached the lowest level of the NET Architecture you can leave your own Virus in the Architecture to perform up to 2 actions or changes, within reason. Using this ability is the only way a Netrunner can make a change to a NET Architecture that persists after they Jack Out. Describe to the GM what you want the virus to do, and they will assign a DV. A more powerful Virus will require a higher DV to leave in the Architecture, as determined by the GM. Depending what you want to do, this can require as many NET Actions as the GM determines. Roll a Virus Check. The DV to destroy a Virus is equal to the Virus Check made to create it.
