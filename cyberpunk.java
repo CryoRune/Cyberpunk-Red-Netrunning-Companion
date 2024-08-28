@@ -21,6 +21,7 @@ class Netrunning {
     static boolean pathfinder = false;
     static boolean passKnown = false;
     static ArrayList<program> floorPrograms = new ArrayList<program>();
+    static program slideTarget;
 
     public static void main(String[] args) throws Exception {
         
@@ -122,16 +123,23 @@ class Netrunning {
 
                     ArrayList<program> p = netArchitecture.get(currentFloor);
                     ArrayList<String> pType = getType(p.size(), p);
+                    // Checks to see if there are any obstructions
                     for(int i = 0; i < p.size(); i++) {
-
+                        
                         String s = pType.get(i);
                         if(s.equals(allTypes[3]) || s.equals(allTypes[4])) {
                             return;
                         }
                     }
-                    if(!slide[0]) {
-                        
-                        for(int i = 0; i < p.size(); i++) {
+                    // Moves all Black ICE with the netrunner unless they are slid past
+                    for(int i = 0; i < p.size(); i++) {
+
+                        if(slide[0] && p.get(i) == slideTarget) {
+
+                            slide[0] = false;
+                            continue;
+                        }
+                        else {
 
                             String s = pType.get(i);
                             if(s.equals(allTypes[0]) || s.equals(allTypes[1])) {
@@ -141,9 +149,6 @@ class Netrunning {
                                 i--;
                             }
                         }
-                    }
-                    else if(slide[0]) {
-                        slide[0] = false;
                     }
                     currentNet--;
                     currentFloor++;
@@ -161,9 +166,15 @@ class Netrunning {
 
                     ArrayList<program> p = netArchitecture.get(currentFloor);
                     ArrayList<String> pType = getType(p.size(), p);
-                    if(!slide[0]) {
+                    // Moves all Black ICE with the netrunner unless they are slid past
+                    for(int i = 0; i < p.size(); i++) {
 
-                        for(int i = 0; i < p.size(); i++) {
+                        if(slide[0] && p.get(i) == slideTarget) {
+
+                            slide[0] = false;
+                            continue;
+                        }
+                        else {
 
                             String s = pType.get(i);
                             if(s.equals(allTypes[0]) || s.equals(allTypes[1])) {
@@ -173,9 +184,6 @@ class Netrunning {
                                 i--;
                             }
                         }
-                    }
-                    else if(slide[0]) {
-                        slide[0] = false;
                     }
                     currentNet--;
                     currentFloor--;
@@ -272,31 +280,34 @@ class Netrunning {
         bSlide.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
-                
-                int count = 0;
-                int ice = 0;
-                ArrayList<String> pType = getType(netArchitecture.get(currentFloor).size(), netArchitecture.get(currentFloor));
-                // Checks to see if slide is available for this round
-                if(!slide[1]) {
-                    // Can only slide if there is exactly one Black ICE
-                    for(int i = 0; i < netArchitecture.get(currentFloor).size(); i++) {
-                        // Checks if program is Black ICE
-                        if(pType.get(i).equals(allTypes[0]) || pType.get(i).equals(allTypes[1])) {
 
-                            count++;
-                            ice = i;
-                        }
-                    }
-                }
-                if(count == 1) {
+                if(currentNet != 0 && !slide[1]) {
 
-                    // Compares an interface check with a perception check of the found Black ICE
-                    if(n.interfaceDV(netArchitecture.get(currentFloor).get(ice).perCheck()) && currentNet != 0) {
-                        slide[0] = true;
+                    JFrame target = new JFrame();
+                    ArrayList<program> ice = blackIce(netArchitecture, allTypes);
+                    ArrayList<JButton> selection = target(ice, frame, target);
+                    for(int i = 0; i < ice.size(); i++) {
+
+                        // Creates action for Black ICE target
+                        program currentIce = ice.get(i);
+                        selection.get(i).addActionListener(new ActionListener() {
+                        
+                            public void actionPerformed(ActionEvent e) {
+            
+                                if(n.interfaceDV(currentIce.perCheck())) {
+
+                                    slide[0] = true;
+                                    slideTarget = currentIce;
+                                }
+                                floor.setText("Floor " + (displayFloor) + ": " + netArchitecture.get(currentFloor));
+                                currentNet--;
+                                actions.setText("Net Actions Remaining: " + currentNet);
+                                target.setVisible(false);
+                                frame.setVisible(true);
+                                slide[1] = true;
+                            }
+                        });
                     }
-                    currentNet--;
-                    actions.setText("Net Actions Remaining: " + currentNet);
-                    slide[1] = true;
                 }
             }
         });
