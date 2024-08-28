@@ -316,34 +316,25 @@ class Netrunning {
                 
                 if(currentNet != 0) {
 
-                    ArrayList<String> pType = getType(netArchitecture.get(currentFloor).size(), netArchitecture.get(currentFloor));
-                    ArrayList<program> p = netArchitecture.get(currentFloor);
                     JFrame target = new JFrame();
-                    target.setSize(500, 600);
-                    target.setLayout(new FlowLayout());
-                    // Checks to see which programs are Black ICE and able to be targeted
-                    for(int i = 0; i < p.size(); i++) {
+                    ArrayList<program> ice = blackIce(netArchitecture, allTypes);
+                    ArrayList<JButton> selection = target(ice, frame, target);
+                    for(int i = 0; i < ice.size(); i++) {
 
-                        if(pType.get(i).equals(allTypes[0]) || pType.get(i).equals(allTypes[1])) {
-                            // Creates selection for Black ICE target
-                            JButton b = new JButton("" + p.get(i));
-                            target.add(b);
-                            frame.setVisible(false);
-                            target.setVisible(true);
-                            program ice = p.get(i);
-                            b.addActionListener(new ActionListener() {
-                            
-                                public void actionPerformed(ActionEvent e) {
-                
-                                    ice.damage(n.zap(ice));
-                                    floor.setText("Floor " + (displayFloor) + ": " + netArchitecture.get(currentFloor));
-                                    currentNet--;
-                                    actions.setText("Net Actions Remaining: " + currentNet);
-                                    target.setVisible(false);
-                                    frame.setVisible(true);
-                                }
-                            });
-                        }
+                        // Creates action for Black ICE target
+                        program currentIce = ice.get(i);
+                        selection.get(i).addActionListener(new ActionListener() {
+                        
+                            public void actionPerformed(ActionEvent e) {
+            
+                                currentIce.damage(n.zap(currentIce));
+                                floor.setText("Floor " + (displayFloor) + ": " + netArchitecture.get(currentFloor));
+                                currentNet--;
+                                actions.setText("Net Actions Remaining: " + currentNet);
+                                target.setVisible(false);
+                                frame.setVisible(true);
+                            }
+                        });
                     }
                 }
             }
@@ -412,6 +403,39 @@ class Netrunning {
             t.add(net.get(i).getType());
         }
         return t;
+    }
+
+    public static ArrayList<program> blackIce(ArrayList<ArrayList<program>> netArchitecture, String[] allTypes) {
+
+        ArrayList<String> pType = getType(netArchitecture.get(currentFloor).size(), netArchitecture.get(currentFloor));
+        ArrayList<program> p = netArchitecture.get(currentFloor);
+        ArrayList<program> ice = new ArrayList<program>();
+        for(int i = 0; i < p.size(); i++) {
+
+            if(pType.get(i).equals(allTypes[0]) || pType.get(i).equals(allTypes[1])) {
+                ice.add(p.get(i));
+            }
+        }
+        return ice;
+    }
+
+    public static ArrayList<JButton> target(ArrayList<program> ice, JFrame frame, JFrame target) {
+
+        // JFrame target = new JFrame();
+        target.setSize(500, 600);
+        target.setLayout(new FlowLayout());
+        ArrayList<JButton> selection = new ArrayList<JButton>();
+        // Checks to see which programs are Black ICE and able to be targeted
+        for(int i = 0; i < ice.size(); i++) {
+            // Creates selection for Black ICE target
+            JButton b = new JButton("" + ice.get(i));
+            target.add(b);
+            frame.setVisible(false);
+            target.setVisible(true);
+            selection.add(b);
+        }
+
+        return selection;
     }
 
     // Can read any csv file, used to create each program
